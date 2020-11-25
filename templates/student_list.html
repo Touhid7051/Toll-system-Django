@@ -1,0 +1,51 @@
+{%extends 'main.html'%}
+{%load static%}
+{%block mainbody%}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Father Name</th>
+      <th scope="col">Mother Name</th>
+      <th scope="col">Mobile Number</th>
+        <th scope="col">E-Mail</th>
+     <!--  <th scope="col">Photo</th> -->
+        <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {%for p in data%}
+    <tr>
+      <th scope="row">{{p.name}}</th>
+      <td>{{p.father_name}}</td>
+      <td>{{p.mother_name}}</td>
+      <td>{{p.number}}</td>
+        <td>{{p.email}}</td>
+        <!--<td>{{p.student_image}}</td> -->
+
+        <td>
+          <button class="btn btn-secondary" >
+            <a href="{%url 'student_update' id=p.id %}">
+
+            Edit
+          </a>
+          </button>
+          <button class="btn btn-primary">
+            <a href="{%url 'student_details' id=p.id %}">View</a>
+          </button>
+            <button class="btn btn-danger">
+                <a href="{%url 'Student_delete' id=p.id %}">
+
+            Delete
+          </a>
+
+            </button>
+
+        </td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+
+{%endblock%}

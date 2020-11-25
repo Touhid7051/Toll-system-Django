@@ -1,0 +1,82 @@
+{%extends 'main.html'%}
+{%block mainbody%}
+{% load crispy_forms_tags %}
+<form method="POST", enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="container">
+        <div class="form-row">
+      <div class="form-group col-md-6 mb-0">
+        {{ form.name|as_crispy_field }}
+          {{ form.email|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-6 mb-0">
+        {{ form.father_name|as_crispy_field }}
+          {{ form.mother_name|as_crispy_field }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-0">
+        {{ form.number|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-4 mb-0">
+
+      </div>
+
+    </div>
+    {{ form.student_image|as_crispy_field }}
+    <button type="submit" class="btn btn-primary">Sign in</button>
+   </div>
+</form>
+
+
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Father Name</th>
+      <th scope="col">Mother Name</th>
+      <th scope="col">Mobile Number</th>
+        <th scope="col">E-Mail</th>
+     <!--  <th scope="col">Photo</th> -->
+        <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {%for p in data%}
+    <tr>
+      <th scope="row">{{p.name}}</th>
+      <td>{{p.father_name}}</td>
+      <td>{{p.mother_name}}</td>
+      <td>{{p.number}}</td>
+        <td>{{p.email}}</td>
+        <!--<td>{{p.student_image}}</td> -->
+
+        <td>
+          <button class="btn btn-secondary" >
+            <a href="{%url 'student_update' id=p.id %}">
+
+            Edit
+          </a>
+          </button>
+          <button class="btn btn-primary">
+            <a href="{%url 'student_details' id=p.id %}">View</a>
+          </button>
+            <button class="btn btn-danger">
+                <a href="{%url 'Student_delete' id=p.id %}">
+
+            Delete
+          </a>
+
+            </button>
+
+        </td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+
+ {%endblock%}

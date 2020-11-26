@@ -26,6 +26,11 @@
       <li class="nav-item">
         <a class="nav-link" href="{%url 'student_admission'%}">Admission Form</a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{%url 'logout'%}">Hello {{request.user}},Logout</a>
+      </li>
+
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

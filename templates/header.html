@@ -23,9 +23,12 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
+
+      {%if request.user.is_staff %}
       <li class="nav-item">
         <a class="nav-link" href="{%url 'student_admission'%}">Admission Form</a>
       </li>
+      {% endif %}
 
       <li class="nav-item">
         <a class="nav-link" href="{%url 'logout'%}">Hello {{request.user}},Logout</a>

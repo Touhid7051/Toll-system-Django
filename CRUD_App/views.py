@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from django.shortcuts import render,redirect
 
 # Create your views here.
+from CRUD_App.decorators import unauthenticated_user , allowed_users
 from CRUD_App.forms import Student_Admission_from, CreateUserForm
 from CRUD_App.models import Student_Admission
 
@@ -16,6 +18,7 @@ def index(request):
     return render(request,'index.html')
 
 @login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
 def student_admission(request):
     form = Student_Admission_from(request.POST , request.FILES)
     data = Student_Admission.objects.all()
@@ -50,6 +53,7 @@ def Student_details(request, id):
 
 
 @login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
 def student_update(request, id):
     data =Student_Admission.objects.get(id=id)
 
@@ -60,37 +64,45 @@ def student_update(request, id):
         return redirect('student_list')
     context = {'form': form}
     return render(request, 'student_admission_data.html', context)
+
 @login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
 def Student_delete(request,id):
     data = Student_Admission.objects.get(id=id)
     data.delete()
     return redirect('student_list')
 
-
+@unauthenticated_user
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('index')
+    #if request.user.is_authenticated:
+     #   return redirect('index')
 
-    else:
+    #else:
         form = CreateUserForm()
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
 
             if form.is_valid():
-                form.save()
-                user =form.cleaned_data.get('username')
-                messages.success(request, 'Account is created for ' +  user )
+                user=form.save()
+                username =form.cleaned_data.get('username')
+
+                group = Group.objects.get(name = 'customer')
+                user.groups.add(group)
+
+                messages.success(request, 'Account is created for ' +  username )
                 return redirect('login')
 
         context = {'form' : form}
         return render(request, 'register.html' , context )
 
 
-def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('index')
 
-    else:
+@unauthenticated_user
+def loginPage(request):
+    #if request.user.is_authenticated:
+        #return redirect('index')
+
+    #else:
         if request.method == 'POST' :
            username = request.POST.get('username')
            password = request.POST.get('password')

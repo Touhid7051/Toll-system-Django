@@ -10,6 +10,7 @@ from CRUD_App.models import Student_Admission
 
 from django.contrib import messages
 from django.contrib.auth import authenticate , login ,logout
+from .filters import DataFilter
 
 
 
@@ -39,15 +40,16 @@ def student_admission(request):
 def student_list(request):
 
     data=Student_Admission.objects.all()
-    context={'data' : data}
+    myFilter = DataFilter(request.GET, queryset=data)  # Filter Functionalities
+    data = myFilter.qs
+    context={'data' : data , 'myFilter' : myFilter }
     return render(request, 'student_list.html',context)
 
 
 @login_required(login_url = 'login')
 def Student_details(request, id):
-
     data = Student_Admission.objects.get(id = id)
-    context = {'data' : data}
+    context = {'data' : data }
     return render(request, 'student_details.html', context)
 
 

@@ -125,4 +125,10 @@ def logutPage(request):
     return redirect('login')
 
 
+def search(request):
+    query  = request.GET['query']
+    data = Student_Admission.objects.filter(name__icontains = query)
+    context = {'data' : data}
+    return render(request , 'search.html' , context)
+
 

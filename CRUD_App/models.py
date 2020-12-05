@@ -21,3 +21,4 @@ class Student_Admission(models.Model):
             return self.student_image.url
         else:
             return ""
+

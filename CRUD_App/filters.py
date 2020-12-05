@@ -7,4 +7,4 @@ class DataFilter(django_filters.FilterSet):
     class Meta:
         model = Student_Admission
         fields ='__all__'
-        exclude = ['student_image','created_at','updated_at']
+        exclude = ['student_image','created_at','updated_at', 'email']
